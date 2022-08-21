@@ -2,6 +2,7 @@ from http import client
 import pybullet as p
 import numpy as np
 import os
+import math
 
 class AGV:
     def __init__(self) -> None:
@@ -32,6 +33,19 @@ class AGV:
             bodyUniqueId = self.agv,
             jointIndices = self.drive_joints,
             controlMode = p.VELOCITY_CONTROL,
-            
+            targetVelocity = [self.joints_speed] *4,
+            physicsClient = self.client       
         )
+    
+    def get_observation(self):
+        pos,ang = p.getBasePositionAndOrientation(self.car,self.client)
+        ori = (math.cos[ang[2]],math.sin[ang[2]])
+        pos = pos[:2]
+        #get velocity of the car
+        lin_vel, ang_vel = p.getBaseVelocity(self.car,self.client)
+        vel = lin_vel[0:2]+(ang_vel[2],)
+        #concatenation
+        observation = (pos+ori+vel)
+        
+        return observation
         

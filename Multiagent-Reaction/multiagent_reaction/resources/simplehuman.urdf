@@ -1,18 +1,18 @@
 <?xml version="1.0"?> 
 <robot name="simplegoal">
     <!-- Colors --> 
-    <material name="red">
-        <color rgba="255 0 0 1"/>
+    <material name="green">
+        <color rgba="0 0.925 0 1"/>
     </material>
 
     <!-- Goal -->
     <link name="base_link">
         <visual>
             <geometry>
-                <cylinder radius="0.5" length="1"/>
+                <cylinder radius="0.25" length="1.75"/>
                 <origin rpy="0 0 0" xyz="0 0 0.5"/>
             </geometry>
-            <material name="red"/>
+            <material name="green"/>
         </visual>
         <collision> 
              <geometry> 
