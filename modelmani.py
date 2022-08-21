@@ -1,14 +1,14 @@
 import pybullet as p
 from time import sleep
 import pybullet_data
-p.connet(p.GUI)
+p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 p.setGravity(0,0,-10)
-car = p.loadURDF('',[10,0,3])
+car = p.loadURDF('./Multiagent-Reaction/multiagent_reaction/resources/simplecar.urdf',[0,0,1])
 number_of_joints = p.getNumJoints(car)
 angle = p.addUserDebugParameter('steering',-0.5,0.5,0)
 throttle = p.addUserDebugParameter('Throttle',0,20,0)
-plane = p.loadURDF('./plane.urdf')
+plane = p.loadURDF('./Multiagent-Reaction/multiagent_reaction/resources/simpleplane.urdf')
 
 sleep(3)
 wheel_indices = [1,3,4,5]
@@ -26,5 +26,5 @@ while True:
         p.setJointMotorControl2(car,joint_index,
                                 p.POSITION_CONTROL,
                                 targetPosition = user_angle)
-    p.setSimulation()
+    p.stepSimulation()
 
