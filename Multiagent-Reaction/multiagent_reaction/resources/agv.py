@@ -5,7 +5,7 @@ import os
 import math
 
 class AGV:
-    def __init__(self) -> None:
+    def __init__(self,client):
         self.client = client
         self.agv = p.loadURDF("./Multiagent-Reaction/multiagent_reaction/resources/simplecar.urdf",
                              basePosition=[0,0,3],

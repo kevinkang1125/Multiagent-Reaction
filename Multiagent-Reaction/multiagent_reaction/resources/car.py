@@ -28,9 +28,10 @@ class Car:
     def apply_action(self, action):
         # Expects action to be two dimensional
         throttle, steering_angle = action
-
+        throttle = 10*throttle +10
+        steering_angle = 0.6*steering_angle
         # Clip throttle and steering angle to reasonable values
-        throttle = min(max(throttle, 0), 1)
+        throttle = min(max(throttle, 0), 20)
         steering_angle = max(min(steering_angle, 0.6), -0.6)
 
         # Set the steering joint positions
@@ -41,21 +42,20 @@ class Car:
 
         # Calculate drag / mechanical resistance ourselves
         # Using velocity control, as torque control requires precise models
-        friction = -self.joint_speed * (self.joint_speed * self.c_drag +
-                                        self.c_rolling)
-        acceleration = self.c_throttle * throttle + friction
+        # friction = -self.joint_speed * (self.joint_speed * self.c_drag +
+        #                                 self.c_rolling)
+        # acceleration = self.c_throttle * throttle + friction
         # Each time step is 1/240 of a second
-        self.joint_speed = self.joint_speed + 1/30 * acceleration
-        if self.joint_speed < 0:
-            self.joint_speed = 0
+        # self.joint_speed = self.joint_speed + 1/30 * acceleration
+        # if self.joint_speed < 0:
+        #     self.joint_speed = 0
 
         # Set the velocity of the wheel joints directly
         p.setJointMotorControlArray(
             bodyUniqueId=self.car,
             jointIndices=self.drive_joints,
             controlMode=p.VELOCITY_CONTROL,
-            targetVelocities=[self.joint_speed] * 4,
-            forces=[1.2] * 4,
+            targetVelocities=[throttle] * 4,
             physicsClientId=self.client)
 
     def get_observation(self):
