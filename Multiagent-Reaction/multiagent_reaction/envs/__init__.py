@@ -1,1 +1,1 @@
-from multiagent_reaction.envs.multiagent_reaction_env import MultiagentReaction
+from multiagent_reaction.envs.multiagent_reaction_env import MultiagentReactionEnv
