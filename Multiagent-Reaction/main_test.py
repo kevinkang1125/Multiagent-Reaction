@@ -32,15 +32,9 @@ class SaveOnBestTrainingRewardCallback(BaseCallback):
             x,y = ts2xy(load_results(self.log_dir),'timesteps')
             if len(x) > 0:
                 mean_reward = np.mean(y[-100:])
-                # if self.verbose >0:
-                #     print("Num_timesteps:{}".format(self.num_timesteps))
-                #     print("Best mean reward:{:.2f}-Last mean reward per episode {:.2f}".format(self.best_mean_reward,mean_reward))
                 
                 if mean_reward>self.best_mean_reward:
                     self.best_mean_reward = mean_reward
-                    # if self.verbose > 0:
-                    #     print("Saving new best model at {} timesteps".format(x[-1]))
-                    #     print("Saving new best model at {}.zip".format(self.save_path))
                     self.model.save(self.save_path)
 log_dir = "./log/"
 os.makedirs(log_dir,exist_ok=True)
@@ -51,7 +45,7 @@ checkpoint_callback= CheckpointCallback(save_freq=200000,save_path='./log/',name
 env = gym.make('MultiagentReaction-v0',render = False)
 env = Monitor(env,log_dir)
 #env = env(render = False)
-model = PPO(MlpPolicy,env,verbose=1,tensorboard_log="./log/",gamma=0.95,ent_coef=1E-5,clip_range=0.2)
+model = PPO(MlpPolicy,env,verbose=1,tensorboard_log="./log/",gamma=0.95)
 model.learn(total_timesteps=200000,callback=checkpoint_callback,tb_log_name="pre_mature")
-model.learn(total_timesteps=2000000,callback=[checkpoint_callback,save_best_model],tb_log_name="steady",reset_num_timesteps=False)
+model.learn(total_timesteps=10000000,callback=[checkpoint_callback,save_best_model],tb_log_name="steady",reset_num_timesteps=False)
 #check_env(env) 

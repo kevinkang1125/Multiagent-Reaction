@@ -9,7 +9,7 @@ class AGV:
         self.client = client
         self.agv = p.loadURDF("./Multiagent-Reaction/multiagent_reaction/resources/simplecar.urdf",
                              basePosition=[0,0,2],
-                             physicsClientId = client
+                             physicsClientId = self.client
                              )
         self.steering_joints = [0,2]
         self.drive_joints = [1,3,4,5]
@@ -23,7 +23,7 @@ class AGV:
         throttle = 10*(throttle)+10
         steering_angle = 0.6* steering_angle
         throttle = min(max(throttle,0),20)
-        steering_angle = max(min(steering_angle,0.6),-0.6)
+        #steering_angle = max(min(steering_angle,0.6),-0.6)
         #steering control
         p.setJointMotorControlArray(self.agv,self.steering_joints,
                                     controlMode = p.POSITION_CONTROL,

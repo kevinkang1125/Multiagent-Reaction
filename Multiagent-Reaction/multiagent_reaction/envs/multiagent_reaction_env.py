@@ -29,7 +29,7 @@ class MultiagentReactionEnv(gym.Env):
         
         self.car = None
         self.plane = None
-        self.planeID = None
+        self.planeId = None
         self.carId = None
         self.target = None
         self.targetId = None
@@ -74,10 +74,10 @@ class MultiagentReactionEnv(gym.Env):
         if not done:
             reward_proceed=(self._dist_to_target-self.dist_to_target)*self.k
         if self.dist_to_target<1:
-            reward_reach = 1000
+            reward_reach = 100
         
         if self.timesteps == 6000:
-           reward_timeout = -1000
+           reward_timeout = -100
         
         reward = reward_col+reward_proceed+reward_reach+reward_timeout
         reward = np.float64(reward)
@@ -89,10 +89,11 @@ class MultiagentReactionEnv(gym.Env):
         p.resetSimulation(self.client)
         p.setGravity(0,0,-10)
         self.plane = Plane(self.client)
-        self.planeID=self.plane.get_ids()
+        self.planeId=self.plane.get_ids()
         self.agv = AGV(self.client)
         self.carId,_ = self.agv.get_ids()
         self.done = False
+        self.timesteps = 0
         goal_x = np.random.randint(3,10)
         goal_y = np.random.randint(-10,10)
         goal = (goal_x,goal_y)
