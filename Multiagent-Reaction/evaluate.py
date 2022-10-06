@@ -9,16 +9,23 @@ import pybullet as p
 env = gym.make('MultiagentReaction-v0',render = True)
 #env = env(render = False)
 model = PPO.load("./log/best_model")#model name
-p.resetDebugVisualizerCamera(cameraDistance = 10,cameraYaw = -90,cameraPitch = -40, cameraTargetPosition = [-0.6,-0.1,-0.15])
+p.resetDebugVisualizerCamera(cameraDistance = 20,cameraYaw = -90,cameraPitch = -89, cameraTargetPosition = [8,0,-0.15])
 obs = env.reset()
-for i in range (1000000):
-    # obs = env.reset()
-    # done = False
-    # while not done:
-    action,_state = model.predict(obs)
-    obs,rewards,done,info = env.step(action)
-    y = obs[1]
-    x = obs[2]
-    #p.resetDebugVisualizerCamera(cameraDistance = 5,cameraYaw = -60,cameraPitch = -30, cameraTargetPosition = [x,y,-0.15])
-    #print(action)
+done = False
+for i in range (10):
+    obs = env.reset()
+    done = False
+    step = 0
+    record_steer = []
+    record_velocity = []
+    while not done:
+        action,_state = model.predict(obs)
+        obs,rewards,done,info = env.step(action)
+        x = action[0]
+        y = action[1]
+        record_steer.append(10*x+10)
+        record_velocity.append(0.8*y)
+    i+=1
+
+
     
