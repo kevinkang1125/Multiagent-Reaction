@@ -21,7 +21,7 @@ class AGV:
     def control(self,action):
         throttle,steering_angle = action
         throttle = 10*(throttle)+10
-        steering_angle = 0.6* steering_angle
+        steering_angle = 0.8* steering_angle
         throttle = min(max(throttle,0),20)
         #steering_angle = max(min(steering_angle,0.6),-0.6)
         #steering control
@@ -42,12 +42,13 @@ class AGV:
     def get_observation(self):
         pos,ang = p.getBasePositionAndOrientation(self.agv,self.client)
         ori = (np.cos(ang[2]),np.sin(ang[2]))
-        pos = pos[:2]
+        #pos = pos[:2]
         #get velocity of the car
         lin_vel, ang_vel = p.getBaseVelocity(self.agv,self.client)
         vel = lin_vel[0:2]+(ang_vel[2],)
         #concatenation
-        observation = (pos+ori+vel)
-        
+        #observation = (pos+ori+vel)
+
+        observation = (ori+vel)
         return observation
         
