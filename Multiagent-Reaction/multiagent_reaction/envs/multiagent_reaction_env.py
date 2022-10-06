@@ -97,7 +97,7 @@ class MultiagentReactionEnv(gym.Env):
         if done:
             reward_final = reward_reach+reward_timeout+self.accu_reward
             self.reward_record.append(reward_final)
-            np.savetxt('episodic_reward_1000.txt',self.reward_record)
+            np.savetxt('episodic_reward_3000.txt',self.reward_record)
         return observation,reward,done,{}
 
      
